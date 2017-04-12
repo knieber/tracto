@@ -1,0 +1,29 @@
+{
+  "name": "pyre",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
+  "devDependencies": {
+    "concurrently": "^3.4.0",
+    "electron": "^1.6.2",
+    "react-scripts": "0.9.5",
+    "wait-on": "^2.0.2"
+  },
+  "main": "src/main.js",
+  "homepage": "./",
+  "scripts": {
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "react-start": "react-scripts start",
+    "electron-dev": "ELECTRON_START_URL=http://localhost:3000 ./node_modules/.bin/electron .",
+    "start": "./node_modules/.bin/concurrently 'npm run react-start' './node_modules/.bin/wait-on http://localhost:3000/ && npm run electron-dev'"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  }
+}
