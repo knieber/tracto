@@ -1,4 +1,5 @@
 const electron = require('electron');
+
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
@@ -8,30 +9,35 @@ const url = require('url');
 let mainWindow;
 
 function createWindow() {
-    mainWindow = new BrowserWindow({width: 800, height: 600});
-    
-    const startUrl = process.env.ELECTRON_START_URL || 
-      url.format({
-        pathname: path.join(__dirname, '/../build/index.html'),
-        protocol: 'file:',
-        slashes: true
-      });
-    mainWindow.loadURL(startUrl);
-    mainWindow.on('closed', function () {
-        mainWindow = null
-    })
+  mainWindow = new BrowserWindow({ width: 800, height: 600 });
+
+  const startUrl = process.env.ELECTRON_START_URL ||
+    url.format({
+      pathname: path.join(__dirname, '/../build/index.html'),
+      protocol: 'file:',
+      slashes: true,
+    });
+  mainWindow.loadURL(startUrl);
+  if (process.env.NODE_ENV === 'development') {
+    BrowserWindow.addDevToolsExtension(
+      '/Users/kylenieber/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/2.0.12_0'
+    );
+  }
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
 }
 
 app.on('ready', createWindow);
 
-app.on('window-all-closed', function () {
-    if (process.platform !== 'darwin') {
-        app.quit()
-    }
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });
 
-app.on('activate', function () {
-    if (mainWindow === null) {
-        createWindow()
-    }
+app.on('activate', () => {
+  if (mainWindow === null) {
+    createWindow();
+  }
 });
